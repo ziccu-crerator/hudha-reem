@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background: url('images/japan.jpg') no-repeat center center fixed;
+      filter: brightness(0.8);
+      background-size: cover;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;
+      overflow: hidden;
+    }
+    .message {
+      font-size: 3em; font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 30px;
+      opacity: 0; transform: translateX(-100%);
+      animation: slideInFromLeft 1.5s forwards;
+      white-space: pre-line; /* Allows line breaks */
+    }
+
+    @keyframes slideInFromLeft {
+      to {
+        opacity: 1; transform: translateX(0);
+      }
+    }
+
+    .wish { 
+      font-size: 1.45em; 
+      max-width: 400px; 
+      color: #ffffff; 
+      margin-bottom: 30px; 
+      font-weight: bold; 
+      text-shadow: 0 0 10px #ffffff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+      animation: glowEffect 1.5s infinite alternate;
+    }
+
+    @keyframes glowEffect {
+      from { text-shadow: 0 0 10px #ffffff, 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
+      to { text-shadow: 0 0 20px #ffffff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
+    }
+
+    .btn-next {
+      padding: 14px 40px;
+      font-size: 1.1em;
+      color: orange; 
+      background: #fff;
+      border: none; 
+      border-radius: 24px;
+      cursor: pointer; 
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 10px orange, 0 0 20px orange;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-next:hover {
+      background: #ff9800;
+      box-shadow: 0 0 20px orange, 0 0 30px orange;
+    }
+
+    .butterfly {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('images/butterfly.png') no-repeat center center;
+      background-size: contain;
+      animation: fly 5s linear infinite;
+    }
+
+    .butterfly.red {
+      filter: hue-rotate(0deg);
+    }
+
+    .butterfly.blue {
+      filter: hue-rotate(240deg);
+    }
+
+    @keyframes fly {
+      0% {
+      transform: translateX(-50px) translateY(0) rotate(0deg);
+      }
+      50% {
+      transform: translateX(50px) translateY(-20px) rotate(15deg);
+      }
+      100% {
+      transform: translateX(150px) translateY(0) rotate(0deg);
+      }
+    }
+
+    .butterfly:nth-child(2) {
+      animation-direction: reverse;
+    }
+    
+    .btn-next:hover { background: #c2185b; }
+
+    .messag {
+      font-size: 3em; font-weight: bold;
+      color: #00fac4;
+      margin-bottom: 30px;
+      opacity: 0; transform: translateX(-100%);
+      animation: slideInFromRight 1.5s forwards;
+      white-space: pre-line; /* Allows line breaks */
+    }
+
+    @keyframes slideInFromRight {
+      to {
+        opacity: 1; transform: translateX(0);
+      }
+    }
+
+    .falling-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .falling {
+      position: absolute;
+      top: -50px;
+      animation: fall 5s linear infinite;
+    }
+
+    .balloon {
+      width: 30px;
+      height: 50px;
+      background: #42bd48;
+      border-radius: 50%;
+    }
+
+    .star {
+      width: 20px;
+      height: 20px;
+      background: yellow;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) translateX(-20px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="message" style="font-weight: bolder; text-shadow: 0 0 10px #ffa500, 0 0 20px #ff4500, 0 0 30px #ff4500;">Happy</div>
+  <div class="messag" style="text-shadow: 0 0 10px #ffa500, 0 0 20px #ff4500, 0 0 30px #ff4500;">Birthday</div>
+  <div class="message" style="text-shadow: 0 0 10px #ffa500, 0 0 20px #ff4500, 0 0 30px #ff4500;">Hudha!</div>
+  <div class="wish">
+    أتمنى لك عامًا ساحرًا مليئًا بالضحك والأحلام ولحظات تحت ضوء القمر.<br>
+    عسى أن تلمع أفراحك أكثر من النجوم الليلة!
+  </div>
+  <button class="btn-next" onclick="window.location.href='feelings.html'">Click Me</button>
+
+  <div class="falling-container" id="falling-container"></div>
+
+  <script>
+    const container = document.getElementById('falling-container');
+
+    function createFallingElement(type) {
+      const element = document.createElement('div');
+      element.classList.add('falling', type);
+      element.style.left = Math.random() * 100 + '%';
+      element.style.animationDuration = Math.random() * 3 + 2 + 's';
+      container.appendChild(element);
+
+      setTimeout(() => {
+        container.removeChild(element);
+      }, 5000);
+    }
+
+    setInterval(() => {
+      createFallingElement(Math.random() > 0.5 ? 'balloon' : 'star');
+    }, 500);
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Birthday Surprise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: url('images/moon.jpg') center center / cover no-repeat fixed;
+      /* Replace above with your image path! */
+    }
+    .hint-text {
+      color: white;
+      font-size: 2.2em;
+      margin-bottom: 28px;
+      text-shadow: 0 0 12px #333, 0 2px 4px #fff;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .ribbon {
+      width: 84vw; max-width: 320px; height: 60px;
+      background: linear-gradient(90deg,#f72798 60%, #7d3cff 100%);
+      border-radius: 30px;
+      box-shadow: 0 4px 16px #1118;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: bold; font-size: 1.2em;
+      letter-spacing: 2px;
+      user-select: none;
+      margin-bottom: 7vw;
+      border: 3px solid #fff4;
+      transition: transform 0.5s;
+      position: relative;
+    }
+    .ribbon::after {
+      content: "🦋";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      animation: fly-butterflies 3s infinite ease-in-out;
+    }
+    .ribbon::before {
+      content: "🦋";
+      position: absolute;
+      top: -18px;
+      left: -18px;
+      animation: fly-butterflies 3s infinite ease-in-out;
+      animation-delay: 1.5s;
+    }
+    
+    @keyframes fly-butterflies {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10px, -10px) rotate(15deg); }
+      50% { transform: translate(0, -20px) rotate(0deg); }
+      75% { transform: translate(-10px, -10px) rotate(-15deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    
+    .ribbon.split {
+      animation: split-ribbon 0.7s forwards;
+    }
+    @keyframes split-ribbon {
+      0% { transform: scaleX(1);}
+      70% { transform: scaleX(0.7) rotate(-5deg);}
+      100% { transform: scaleX(0) rotate(12deg);}
+    }
+    @media (max-width:500px) {
+      .hint-text { font-size: 1.25em; }
+      .ribbon {height:43px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="hint-text bubble-text"><b>Hey Reem!</b></div>
+  <style>
+    .bubble-text b {
+      display: inline-block;
+      animation: bubble-animation 3s infinite ease-in-out;
+    }
+    @keyframes bubble-animation {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(10px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+  <div class="ribbon" id="ribbon">🎀 Open 🎀</div>
+  <script>
+    document.getElementById('ribbon').onclick = function() {
+      this.classList.add('split');
+      setTimeout(() => window.location.href = "birthday.html", 700);
+    }
+  </script>
+</body>
+</html>

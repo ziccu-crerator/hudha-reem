@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Mood</title>
+  <style>
+    body { 
+      margin:0; padding:0; height:100vh;
+      background: url('images/KID.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    h2 { color:#7d3cff; margin-bottom:24px;}
+    .mood-buttons { display:flex; gap:24px; margin-bottom:28px;}
+    button { font-size:1.4em; padding:18px 28px; border:none; border-radius:24px;
+      background:#fcf0f600; color:#fff; cursor:pointer;
+      box-shadow:0 2px 8px #3333; position:relative; transition:background 0.2s;}
+    button:hover { background:#c2185c00;}
+    .emoji {font-size:2em; margin-right:8px;}
+    .popup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:rgba(255,255,255,0.98); color:#37303A; font-size:1.3em;
+      border-radius:22px; box-shadow:0 5px 32px #1115; padding:30px 38px;
+      z-index:20; display:none; animation:zoomInPopup 0.45s;}
+    @keyframes zoomInPopup { from {transform:translate(-50%,-50%) scale(0.1);}
+      to   {transform:translate(-50%,-50%) scale(1);}}
+    .close-btn { background:none; border:none; color:#f72798; font-size:1.5em;
+      font-weight:bold; cursor:pointer; position:absolute; top:14px; right:18px;
+      transition:color 0.2s;}
+    .close-btn:hover { color:#333;}
+
+    /* Glowing messages styles */
+    .glowing-messages {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.8em;
+      color: white;
+      text-shadow: 0 0 8px yellow, 0 0 16px yellow;
+      animation: fadeInOut 6s infinite;
+    }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glowing-messages" id="glowingMessage"></div>
+  <h2 class="bubble-text">SELECT ONE AND READ</h2>
+  <style>
+    .bubble-text {
+      color: white;
+      text-shadow: 0 0 8px black, 0 0 16px black;
+      display: inline-block;
+      animation: bubbleAnimation 3s infinite;
+    }
+
+    @keyframes bubbleAnimation {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .bubble-text span {
+      display: inline-block;
+      animation: bubbleWordAnimation 3s infinite;
+    }
+
+    @keyframes bubbleWordAnimation {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+  <script>
+    const bubbleTextElement = document.querySelector('.bubble-text');
+    const text = bubbleTextElement.textContent;
+    bubbleTextElement.innerHTML = text.split(' ').map(word => `<span>${word}</span>`).join(' ');
+  </script>
+  <div class="mood-buttons">
+    <button onclick="showMsg()"><span class="emoji">🌙</span></button>
+    <button onclick="showMsg()"><span class="emoji">🦢</span></button>
+    <button onclick="showMsg()"><span class="emoji">☁️</span></button>
+  </div>
+  <div id="popup" class="popup"></div>
+  <script>
+    // Quranic verses (English only)
+    const messages = [
+      "When My servants ask you about Me I am truly near. I respond to one's prayer when they call upon Me. (Surah Al-Baqarah 2186)",
+      "Those who believe and whose hearts find comfort in the remembrance of Allah. Surely in the remembrance of Allah do hearts find comfort. (Surah Ar-Rad 1328)",
+      "For indeed, with hardship comes ease. Indeed, with hardship comes ease. (Surah Ash-Sharh 945-6)",
+      "Allah does not burden a soul beyond that it can bear. (Surah Al-Baqarah 2286)",
+      "Fear not. Indeed, I am with you both; I hear and I see. (Surah Taha 2046)",
+      "O believers! Seek comfort in patience and prayer. Allah is truly with those who are patient. (Surah Al-Baqarah 2153)",
+      "And whoever puts their trust in Allah, then He alone is sufficient for them. Certainly Allah achieves His Will. (Surah At-Talaq 653)",
+      "My Lord, indeed adversity has touched me, and You are the Most Merciful of the merciful. (Surah Al-Anbiya 2183)",
+      "And do not lose hope in the mercy of Allah. Indeed, none despairs of relief from Allah except the disbelieving people. (Surah Yusuf 1287)",
+      "So do not weaken and do not grieve, and you will be superior if you are true believers. (Surah Ali Imran 3139)",
+      "And We will surely test you with something of fear and hunger and a loss of wealth and lives and fruits, but give good tidings to the patient. (Surah Al-Baqarah 2155)",
+      "Who, when disaster strikes them, say, 'Indeed we belong to Allah, and indeed to Him we will return.' (Surah Al-Baqarah 2156)",
+      "Sufficient for us is Allah, and He is the best Disposer of affairs. (Surah Ali Imran 3173)",
+      "And upon Allah rely, if you should be believers. (Surah Al-Maidah 523)",
+      "My Lord, expand for me my breast. (Surah Taha 2025)",
+      "But Allah is the best guardian, and He is the most merciful of the merciful. (Surah Yusuf 1264)",
+      "But perhaps you hate a thing and it is good for you. And Allah knows, while you know not. (Surah Al-Baqarah 2216)",
+      "Unquestionably, by the remembrance of Allah hearts are assured. (Surah Ar-Rad 1328)",
+      "And give good tidings to the believers that they will have from Allah great bounty. (Surah Al-Ahzab 3347)",
+      "Peace be upon you for what you patiently endured. And excellent is the final home. (Surah Ar-Rad 1324)"
+    ];
+
+    const glowingMessages = [
+      "You're a nice person",
+      "You're kind",
+      "You're amazing",
+      "You are loved",
+      "You are strong",
+      "You are capable",
+      "You are enough",
+      "You are beautiful",
+      "You are unique",
+      "You are valued"
+    ];
+
+    function showMsg() {
+      const msgArr = messages;
+      const randomMsg = msgArr[Math.floor(Math.random() * msgArr.length)];
+      const popup = document.getElementById("popup");
+      popup.innerHTML = `<button class="close-btn" onclick="closePopup()">×</button><div>${randomMsg}</div>`;
+      popup.style.display = "block";
+    }
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    function updateGlowingMessage() {
+      const glowingMessageElement = document.getElementById("glowingMessage");
+      const randomGlowingMessage = glowingMessages[Math.floor(Math.random() * glowingMessages.length)];
+      glowingMessageElement.textContent = randomGlowingMessage;
+    }
+
+    // Update glowing message every 6 seconds
+    setInterval(updateGlowingMessage, 6000);
+    updateGlowingMessage(); // Initialize with the first message
+  </script>
+</body>
+</html>
